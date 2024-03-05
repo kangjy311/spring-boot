@@ -9,6 +9,8 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +31,10 @@ import java.util.stream.Collectors;
 public class StudentController {
 
     @PostMapping("/student")
-    public ResponseEntity<?> addStudent(@CookieValue String students, @RequestBody Student student) throws JsonProcessingException {
+    public ResponseEntity<?> addStudent(@CookieValue(required = false) String students, @RequestBody Student student) throws JsonProcessingException, UnsupportedEncodingException {
         // post(JSON) 요청 일 때는 @RequestBody 필요
 
+        ObjectMapper objectMapper = new ObjectMapper();
         List<Student> studentList = new ArrayList<>();
         int lastId = 0;
 
@@ -39,8 +42,10 @@ public class StudentController {
 
         if(students != null) {
             if(!students.isBlank()) {
-                ObjectMapper studentsCookie = new ObjectMapper();
-                studentList = studentsCookie.readValue(students, List.class);
+                for(Object object : objectMapper.readValue(students, List.class)) { // List 객체 object로
+                    Map<String, Object> studentMap = (Map<String, Object>) object;  // 다운캐스팅
+                    studentList.add(objectMapper.convertValue(studentMap, Student.class));
+                }
                 lastId = studentList.get(studentList.size() - 1).getStudentId();    //마지막학생
             }
         }
@@ -48,10 +53,12 @@ public class StudentController {
         student.setStudentId((lastId + 1));
         studentList.add(student);
 
-        ObjectMapper newStudentList = new ObjectMapper();
-        String newStudents = newStudentList.writeValueAsString(studentList);
+        String studentListJson = objectMapper.writeValueAsString(studentList);
+
+        System.out.println(studentListJson);
+
         ResponseCookie responseCookie = ResponseCookie
-                .from("test", "test_data")
+                .from("students", URLEncoder.encode(studentListJson, "UTF-8"))
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
