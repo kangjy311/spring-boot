@@ -3,8 +3,14 @@ package com.study.mvc.repository;
 import com.study.mvc.entity.Study;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface DBStudyRepository {
     // tb마다 repository 인터페이스 하나라고 생각
+
     public int save(Study study);
+    public Study findStudyById(int id);
+    public Study findStudyByName(String name);
+    public List<Study> findAll();
 }
