@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.mvc.repository.DBStudyRepository">
+    <insert
+            id="save"
+            parameterType="com.study.mvc.entity.Study"
+            useGeneratedKeys="true"
+            keyProperty="id"
+    >
+    <!-- 경로: 우클 - copy path/ - copy reference -->
+    <!-- id="메소드 명" parameterType="매개변수"-->
+
+        insert into study_tb
+        values (0, #{name}, #{age}, now())
+    </insert>
+</mapper>
