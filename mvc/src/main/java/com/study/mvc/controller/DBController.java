@@ -38,4 +38,24 @@ public class DBController {
         return ResponseEntity.ok(dbStudyService.findAll());
     }
 
+    @DeleteMapping("/delete/study/{id}")
+    public ResponseEntity deleteStudy(@PathVariable int id) {
+
+        return ResponseEntity.ok(dbStudyService.deleteById(id));
+    }
+
+    @PutMapping("/update/study/{id}")
+    public ResponseEntity<?> putStudy(@PathVariable int id, @RequestBody DBStudyReqDto dbStudyReqDto) {
+        // put: 전체 수정
+        // {nickname: aaa, password: 1234} => {nickname: "", password: 1111} => {nickname: "", password: 1111}
+        return ResponseEntity.ok(dbStudyService.putById(id, dbStudyReqDto));
+    }
+
+    @PatchMapping("/update/study/{id}")
+    public ResponseEntity<?> patchStudy(@PathVariable int id, @RequestBody DBStudyReqDto dbStudyReqDto) {
+        // patch: 부분 수정
+        // {nickname: aaa, password: 1234} => {nickname: "", password: 1111} => {nickname: aaa, password: 1111}
+        return ResponseEntity.ok(dbStudyService.patchById(id, dbStudyReqDto));
+    }
+
 }

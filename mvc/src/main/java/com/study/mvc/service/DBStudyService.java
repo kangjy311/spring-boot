@@ -86,4 +86,19 @@ public class DBStudyService {
         return dbStudyRepository.findAll().stream().map(Study::toDto).collect(Collectors.toList());
     }
 
+    public int deleteById(int id) {
+
+        return dbStudyRepository.deleteById(id);
+    }
+
+    public int putById(int id, DBStudyReqDto dbStudyReqDto) {
+        Study study = dbStudyReqDto.toEntity(id);
+        return dbStudyRepository.putById(study);
+    }
+
+    public int patchById(int id, DBStudyReqDto dbStudyReqDto) {
+
+        return dbStudyRepository.patchById(dbStudyReqDto.toEntity(id));
+    }
+
 }

@@ -13,4 +13,7 @@ public interface DBStudyRepository {
     public Study findStudyById(int id);
     public Study findStudyByName(String name);
     public List<Study> findAll();
+    public int deleteById(int id);
+    public int putById(Study study);
+    public int patchById(Study study);
 }

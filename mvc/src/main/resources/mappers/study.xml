@@ -70,4 +70,43 @@
         from
             study_tb
     </select>
+
+    <delete id="deleteById" parameterType="Integer">
+        delete
+        from
+            study_tb
+        where
+            id = #{id}
+    </delete>
+
+    <update
+            id="putById"
+            parameterType="com.study.mvc.entity.Study"
+    >
+        update study_tb
+        set
+            name = #{name},
+            age = #{age}
+        where
+            id = #{id}
+    </update>
+
+    <update
+            id="patchById"
+            parameterType="com.study.mvc.entity.Study"
+    >
+        update study_tb
+        set
+            <if test="name != null and !name.equals('')">
+                name = #{name},
+            </if>
+            <if test="age != 0">
+                age = #{age},
+            </if>
+                create_date = create_date
+                <!--  if 조건문이 없을 때 문법 오류 방지, 끝에 쉼표 없게 하려고 씀-->
+        where
+        id = #{id}
+    </update>
+
 </mapper>
