@@ -2,6 +2,7 @@ package com.study.library.controller;
 
 import com.study.library.aop.annotation.ParamsPrintAspect;
 import com.study.library.aop.annotation.ValidAspect;
+import com.study.library.dto.SigninReqDto;
 import com.study.library.dto.SignupReqDto;
 import com.study.library.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,15 @@ public class AuthController {
         // SignupReqDto 에 어노테이션 달고 @Valid 붙여줘야 됨
         //@Valid, BindingResult (같이 씀)
 
-        if(authService.isDuplicatedByUsername(signupReqDto.getUsername())) {
-            ObjectError objectError = new FieldError("username", "username", "이미 존재하는 사용자이름입니다.");
-            bindingResult.addError(objectError);
-        }
 
         authService.signup(signupReqDto);
 
         return ResponseEntity.created(null).body(true);
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> signin(@RequestBody SigninReqDto signinReqDto) {
+        return ResponseEntity.ok(authService.signin(signinReqDto));
     }
 
 }
