@@ -26,6 +26,7 @@ public class User {
     private LocalDateTime updatedDate;
 
     private List<RoleRegister> roleRegisters;
+    private List<OAuth2> oAuth2s;
 
     public List<SimpleGrantedAuthority> getAuthorities() {
         //
