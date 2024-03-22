@@ -127,4 +127,14 @@
         values(0, #{oAuth2Name}, #{userId}, #{providerName}, now(), now())
     </insert>
 
+    <update id="modifyPassword" parameterType="com.study.library.entity.User">
+        update
+            user_tb
+        set
+            password = #{password},
+            update_date = now()     <!-- 수정할때 찾아보기 좋음 -->
+        where
+            user_id = #{userId}
+    </update>
+
 </mapper>
