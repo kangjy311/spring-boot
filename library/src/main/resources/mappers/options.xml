@@ -21,16 +21,22 @@
 
    <select id="getAllBookTypes" resultMap="BookTypeResultMap">
       select
-         category_id,
          book_type_id,
+         book_type_name,
          create_date,
-         update_date,
+         update_date
       from
-         category_tb
+         book_type_tb
    </select>
 
    <select id="getAllCategories" resultMap="CategoryResultMap">
-
+      select
+         category_id,
+         category_name,
+         create_date,
+         update_date
+      from
+        category_tb
    </select>
 
 </mapper>
