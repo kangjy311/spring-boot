@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import com.study.library.dto.UpdateBookReqDto;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -40,5 +42,25 @@ public class AdminBookController {
     public ResponseEntity<?> getCount(SearchBookReqDto searchBookReqDto) {
 
         return ResponseEntity.ok(bookService.getBookCount(searchBookReqDto));
+    }
+
+    @DeleteMapping("/book/{bookId}")
+    public ResponseEntity<?> deleteBook(@PathVariable int bookId) {
+        return ResponseEntity.ok(null);
+    }
+
+    @ParamsPrintAspect
+    @DeleteMapping("/books")
+    public ResponseEntity<?> deleteBooks(@RequestBody List<Integer> bookIds) {
+        bookService.deleteBooks(bookIds);
+        return ResponseEntity.ok(true);
+    }
+
+    @PutMapping("/book/{bookId}")
+    public ResponseEntity<?> updateBook(
+            @PathVariable int bookId,
+            @RequestBody UpdateBookReqDto updateBookReqDto) {
+        bookService.updateBook(updateBookReqDto);
+        return ResponseEntity.ok(null);
     }
 }
